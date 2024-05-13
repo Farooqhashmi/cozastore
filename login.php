@@ -3,13 +3,7 @@ include("components/header.php")
 ?>
 
 <head>
-    <style>
-        .signup-button {
-            color: #ffffff; 
-            background-color: #ff0000; 
-            margin-top: 20px; 
-        }
-    </style>
+    <link rel="stylesheet" href="../cozastore/css/login-style.css"> 
 </head>
 
 <!-- Title page -->
@@ -20,7 +14,7 @@ include("components/header.php")
 	</section>	
 
 
-	<!-- Content page -->
+<!-- Content page -->
 	<section class="bg0 p-t-104 p-b-116">
 		<div class="container">
 			<div class="flex-w flex-tr">
