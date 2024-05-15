@@ -9,10 +9,13 @@ include('components/header.php');
     }
 </style>
 
-<!-- Title page -->
-<section class="bg0 p-t-104 p-b-116">
-    <div class="container">
-        <div class="flex-w flex-tr">
+    <!-- Title page -->
+    <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
+    <h2 class="ltext-105 cl0 txt-center">
+        Customer Dashboard
+    </h2>
+    </section>
+            
             <!-- Sidebar Account Menu -->
             <?php
             include("components/customer-account-menu.php");

@@ -30,26 +30,32 @@
 </div>
 
 <style>
-    .nav-account .menu-item {
-        display: block;
-        padding: 10px 0;
-        color: #333; /* Adjust color as needed */
-        text-decoration: none;
-    }
+        .nav-account {
+            border: 2px solid #ccc; /* Cool box border */
+            border-radius: 10px; /* Rounded corners for the cool box */
+            padding: 20px; /* Spacing inside the cool box */
+        }
 
-    .nav-account .menu-item:hover {
-        background-color: #f5f5f5; /* Adjust hover background color */
-    }
+        .menu-item {
+            display: block;
+            padding: 10px 0;
+            color: #333; /* Adjust color as needed */
+            text-decoration: none;
+        }
 
-    .nav-account .menu-item.active {
-        font-weight: bold;
-    }
+        .menu-item:hover {
+            background-color: #f5f5f5; /* Adjust hover background color */
+        }
 
-    .nav-account .menu-item i {
-        margin-right: 10px; /* Adjust icon spacing */
-    }
+        .menu-item.active {
+            font-weight: bold;
+        }
 
-    .nav-account .menu-item i {
-        margin-left: 12px; /* Adjust icon spacing */
-    }
-</style>
+        .menu-item i {
+            margin-right: 10px; /* Adjust icon spacing */
+        }
+
+        .menu-item i {
+            margin-left: 15px; /* Adjust icon spacing */
+        }
+    </style>
