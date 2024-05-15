@@ -2,9 +2,15 @@
 include("components/header.php")
 ?>
 
-<head>
-    <link rel="stylesheet" href="../cozastore/css/login-style.css"> 
-</head>
+<style>
+/* login-style.css */
+
+.signup-button {
+    color: #ffffff;
+    background-color: #ff0000;
+    margin-top: 20px;
+}
+</style>
 
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">

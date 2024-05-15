@@ -357,7 +357,7 @@
 							</a>
 
 							<span class="header-cart-item-info">
-								1 x $50.00
+								1 x $39.00
 							</span>
 						</div>
 					</li>
@@ -369,11 +369,11 @@
 
 						<div class="header-cart-item-txt p-t-8">
 							<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-								coza store premium fabric
+								Nixon Porter Leather
 							</a>
 
 							<span class="header-cart-item-info">
-								2 x $46.00
+								1 x $17.00
 							</span>
 						</div>
 					</li>
@@ -381,7 +381,7 @@
 				
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						Total: $142.00
+						Total: $75.00
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">

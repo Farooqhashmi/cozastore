@@ -1,10 +1,14 @@
 <?php 
 include ("components/header.php"); 
 include ("components/header-1.php"); 
-
-session_start(); 
-
 ?>
+
+<style>
+    .table-my-orders th,
+    .table-my-orders td {
+        padding: 10px; /* Adjust as needed */
+    }
+</style>
 
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">

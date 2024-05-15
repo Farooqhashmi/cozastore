@@ -2,7 +2,7 @@
 <?php include ("components/header-4.php"); 
 if(isset($_GET['cid'])){
     $catstringid = $_GET['cid'];
-    $query = $pdo->prepare("SELECT * FROM categories WHERE catid=:pid");
+    $query = $pdo->prepare("SELECT * FROM categories WHERE catId=:pid");
     $query->bindParam("pid",$catstringid);
     $query->execute();
     $catData = $query->fetch(PDO::FETCH_ASSOC);
@@ -23,7 +23,7 @@ if(isset($_GET['cid'])){
             <?php
                 $query = $pdo->query("SELECT `products`.*, `categories`.`catName`
                 FROM `products` 
-                    INNER JOIN `categories` ON `products`.`productcatid` = `categories`.`catid`  WHERE `productcatid` = $catstringid;");
+                    INNER JOIN `categories` ON `products`.`productcatId` = `categories`.`catId`  WHERE `productcatId` = $catstringid;");
                 $prorow = $query ->fetchAll(PDO::FETCH_ASSOC);
                 foreach($prorow as $values){
             ?>
@@ -31,7 +31,7 @@ if(isset($_GET['cid'])){
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
-							<img src="<?php echo $prodimgref.$values['productImage']?>" alt="<?php echo $values['productName']?>">
+							<img src="<?php echo $productref.$values['productImage']?>" alt="<?php echo $values['productName']?>">
 
 							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 								Quick View
@@ -331,7 +331,7 @@ if(isset($_GET['cid'])){
             <?php
                 $query = $pdo->query("SELECT `products`.*, `categories`.`catName`
                 FROM `products` 
-                    INNER JOIN `categories` ON `products`.`productcatId` = `categories`.`catid`");
+                    INNER JOIN `categories` ON `products`.`productcatId` = `categories`.`catId`");
                 $prorow = $query ->fetchAll(PDO::FETCH_ASSOC);
                 foreach($prorow as $values){
             ?>
@@ -339,7 +339,7 @@ if(isset($_GET['cid'])){
 					<!-- Block2 -->
 					<div class="block2">
 						<div class="block2-pic hov-img0">
-							<img src="<?php echo $prodimgref.$values['productImage']?>" alt="IMG-PRODUCT">
+							<img src="<?php echo $productref.$values['productImage']?>" alt="IMG-PRODUCT">
 
 							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
 								Quick View

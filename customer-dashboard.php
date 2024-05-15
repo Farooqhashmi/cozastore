@@ -1,66 +1,85 @@
-<?php 
-include('components/header.php'); 
+<?php
+include('components/header.php');
 ?>
 
-<head>
-    <link rel="stylesheet" href="../cozastore/css/dashboard-style.css"> 
-</head>
+<style>
+    .table-my-orders th,
+    .table-my-orders td {
+        padding: 10px; /* Adjust as needed */
+    }
+</style>
 
 <!-- Title page -->
-<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
-    <h2 class="ltext-105 cl0 txt-center">
-        Your Dashboard
-    </h2>
-</section>
-
-<!-- Content page -->
 <section class="bg0 p-t-104 p-b-116">
     <div class="container">
         <div class="flex-w flex-tr">
-            <!-- Categories -->
-            <div class="bg-img1 txt-center p-lr-15 p-tb-92">
-                <div class="dashboard-widget">
-                    <h3 class="widget-title">Categories</h3>
-                    <br><div class="category-buttons"></br>
-                        <br><button class="category-btn">Dresses</button></br>
-                        <br><button class="category-btn">Tops</button></br>
-                        <br><button class="category-btn">Pants</button></br>
-                        <br><button class="category-btn">Shoes</button></br>
-                        <br><button class="category-btn">Accessories</button></br>
+            <!-- Sidebar Account Menu -->
+            <?php
+            include("components/customer-account-menu.php");
+            ?>
+            <!-- Account Page Content -->
+            <div class="col-lg-8 col-xl-8 m-lr-auto m-b-50 ">
+                <div class="wrap-recent-orders bor10 p-lr-20 p-t-20 p-b-20">
+                    <h2>Recent Orders</h2>
+                    <div class="wrap-table-my-orders m-t-20">
+                        <table class="table-my-orders">
+                            <tr class="table_head">
+                                <th class="column-1">Order #</th>
+                                <th class="column-2">Order Date</th>
+                                <th class="column-3">Order Status</th>
+                                <th class="column-4">Total</th>
+                            </tr>
+
+                            <tr class="table_row">
+                                <td class="column-1">ORD - 21453</td>
+                                <td class="column-2">13-05-2024</td>
+                                <td class="column-3">Out Of Factory</td>
+                                <td class="column-4">$ 36.00</td>
+                            </tr>
+
+                        </table>
                     </div>
                 </div>
-            </div>
-            <!-- Featured Products -->
-            <div class="bg-img1 txt-center p-lr-15 p-tb-92">
-                <div class="dashboard-widget">
-                    <h3 class="widget-title">Featured Products</h3>
-                    <br><div class="featured-products-grid"></br>
-                        <div class="product-item">Product 1</div>
-                        <div class="product-item">Product 2</div>
-                        <div class="product-item">Product 3</div>
-                        <div class="product-item">Product 4</div> 
-                        <div class="product-item">Product 5</div> 
-                    </div>
-                </div>
-            </div>
-            <!-- Sales Analytics -->
-            <div class="bg-img1 txt-center p-lr-15 p-tb-92">
-                <div class="dashboard-widget">
-                    <h3 class="widget-title">Sales Analytics</h3>
-                    <br><div class="sales-receipt"></br>
-                        <p><strong>Total Sales:</strong> $10,000</p>
-                        <p><strong>Number of Orders:</strong> 100</p>
-                        <p><strong>Revenue per Order:</strong> $100</p>
-                        <p><strong>Average Order Value:</strong> $100</p>
-                        <p><strong>Top Selling Product:</strong> Product X</p>
-                        <!-- Add more sales analytics data as needed -->
-                    </div>
+                <div class="box bor10 account-details-wrapper m-t-40 p-lr-20 p-t-20 p-b-20">
+                    <h3>Personal details</h3>
+                    <form method="post">
+                        <?php if(isset($_SESSION['sessionid'])): ?>
+                            <input type="text" hidden value="<?php echo $_SESSION['sessionid']; ?>" name="userid">
+                        <?php endif; ?>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" value="<?php if(isset($_SESSION['sessionname'])) { echo $_SESSION['sessionname']; } ?>" name="username">
+                                </div>
+                            </div>
+                            <!-- Add similar checks for other session variables -->
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="phone">Telephone</label>
+                                    <input type="text" class="form-control" id="phone" value="<?php if(isset($_SESSION['sessionphone'])) { echo $_SESSION['sessionphone']; } ?>" name="userphone">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="text" class="form-control" id="email" value="<?php if(isset($_SESSION['sessionemail'])) { echo $_SESSION['sessionemail']; } ?>" name="useremail">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="btn btn-primary" name="updatedetails"><i class="fa fa-save"></i> Save changes</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<?php 
-include('components/footer.php'); 
+<?php
+include('components/footer.php');
 ?>

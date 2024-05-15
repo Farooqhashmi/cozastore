@@ -164,8 +164,8 @@
 						</a>
 
 						<?php
-						if(isset($_SESSION['sessemail'])){
-							if($_SESSION['sessrole'] == "admin"){
+						if(isset($_SESSION['sessionemail'])){
+							if($_SESSION['sessionrole'] == "admin"){
 						
 						?>
 						<a href="../dashboard" class="flex-c-m p-lr-10 trans-04">
@@ -174,7 +174,7 @@
 						<?php
 							}
 						}
-						if(!isset($_SESSION['sessemail'])){
+						if(!isset($_SESSION['sessionemail'])){
 						
 						?>
                         <a href="account-login.php" class="flex-c-m p-lr-10 trans-04">
@@ -182,7 +182,7 @@
 						</a>
 						<?php
 						}
-						if(isset($_SESSION['sessemail'])){
+						if(isset($_SESSION['sessionemail'])){
 						
 						?>
 						<a href="my-account.php" class="flex-c-m p-lr-10 trans-04">

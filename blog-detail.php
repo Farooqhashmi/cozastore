@@ -2,7 +2,14 @@
 <?php include ("components/header.php"); ?>
 <?php include ("components/header-1.php"); ?>
 
-
+<!-- Title page -->
+<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-02.jpg');">
+		<h2 class="ltext-105 cl0 txt-center">
+			Blog
+		</h2>
+	</section>
+	
+<br> </br>
 <!-- breadcrumb -->
 <div class="container">
 		<div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -21,7 +28,6 @@
 			</span>
 		</div>
 	</div>
-
 
 	<!-- Content page -->
 	<section class="bg0 p-t-52 p-b-20">

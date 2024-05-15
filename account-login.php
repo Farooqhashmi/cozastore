@@ -6,7 +6,9 @@
             </script>";
 	}
 ?> 
+
 <?php include ("components/header-1.php"); ?>
+
 
 	<!-- Title page -->
 	<section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
@@ -14,7 +16,6 @@
 			Customer Dashboard
 		</h2>
 	</section>	
-
 
 	<!-- Content page -->
 	<section class="bg0 p-t-104 p-b-116">
@@ -32,7 +33,7 @@
 						</div>
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" required type="text" name="useremail" placeholder="Your Email Address">
-							<img class="how-pos4 pointer-none" src="images/icons/icon-email.png" alt="ICON">
+							<img class="how-pos4 pointer-none" src="images/icons/email.png" width="23px" alt="ICON">
 						</div>
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" required type="tel" name="userphone" placeholder="Contact Number">
@@ -57,7 +58,7 @@
 
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="customeremail" required placeholder="Your Email Address">
-							<img class="how-pos4 pointer-none" src="images/icons/icon-email.png" alt="ICON">
+							<img class="how-pos4 pointer-none" src="images/icons/email.png" width="23px" alt="ICON">
 						</div>
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="password" name="customerpassword" required placeholder="Password">
@@ -72,11 +73,7 @@
 			</div>
 		</div>
 	</section>	
-	
-
-
-
 
 <?php
 	include ("components/footer.php");
-?>
+?>	
