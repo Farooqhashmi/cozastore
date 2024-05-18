@@ -1,6 +1,6 @@
 <?php 
 include ("components/header.php"); 
-include ("components/header-1.php"); 
+include("../cozastore/php/dbcon.php"); 
 ?>
 
 <style>
@@ -26,7 +26,6 @@ include ("components/header-1.php");
                 <div class="wrap-recent-orders bor10 p-lr-20 p-t-20 p-b-20">
                     <h2>Recent Orders</h2> 
                     <div class="wrap-table-my-orders m-t-20">
-                        
                         <table class="table-my-orders">
                             <tr class="table_head">
                                 <th class="column-1">Order #</th>
@@ -47,14 +46,14 @@ include ("components/header-1.php");
                 </div>
                 <div class="box bor10 account-details-wrapper m-t-40 p-lr-20 p-t-20 p-b-20">
                     <h3>Personal details</h3>
-                    <form method="post">
+                    <form method="post" action="update-details.php"> <!-- Consider a separate file for updating details -->
                         <!-- Check if session variables are set before using them -->
-                        <input type="text" hidden value="<?php echo isset($_SESSION['sessionid']) ? $_SESSION['sessionid'] : ''; ?>" name="userid">
+                        <input type="hidden" value="<?php echo isset($_SESSION['sessionid']) ? htmlspecialchars($_SESSION['sessionid']) : ''; ?>" name="userid">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label for="firstname">First Name</label>
-                                    <input type="text" class="form-control" id="username" value="<?php echo isset($_SESSION['sessionname']) ? $_SESSION['sessionname'] : ''; ?>" name="username">
+                                    <label for="username">Full Name</label>
+                                    <input type="text" class="form-control" id="username" value="<?php echo isset($_SESSION['sessionname']) ? htmlspecialchars($_SESSION['sessionname']) : ''; ?>" name="username">
                                 </div>
                             </div>
                         </div>
@@ -62,13 +61,13 @@ include ("components/header-1.php");
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="phone">Telephone</label>
-                                    <input type="text" class="form-control" id="phone" value="<?php echo isset($_SESSION['sessionphone']) ? $_SESSION['sessionphone'] : ''; ?>" name="userphone">
+                                    <input type="text" class="form-control" id="phone" value="<?php echo isset($_SESSION['sessionphone']) ? htmlspecialchars($_SESSION['sessionphone']) : ''; ?>" name="userphone">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control" id="email" value="<?php echo isset($_SESSION['sessionemail']) ? $_SESSION['sessionemail'] : ''; ?>" name="useremail">
+                                    <input type="email" class="form-control" id="email" value="<?php echo isset($_SESSION['sessionemail']) ? htmlspecialchars($_SESSION['sessionemail']) : ''; ?>" name="useremail">
                                 </div>
                             </div>
                             <div class="col-sm-12 text-center">

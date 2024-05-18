@@ -1,6 +1,18 @@
 <?php 
-    include("components/header.php");
-    include("components/header-1.php");
+include("components/header.php");
+include("../cozastore/php/dbcon.php"); 
+
+// Fetch orders for the logged-in user
+$userEmail = isset($_SESSION['sessionemail']) ? $_SESSION['sessionemail'] : '';
+
+if ($userEmail) {
+    $query = $pdo->prepare("SELECT * FROM orders WHERE useremail = :email ORDER BY order_date DESC");
+    $query->bindParam(':email', $userEmail);
+    $query->execute();
+    $orders = $query->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $orders = [];
+}
 ?>
 
 <style>
@@ -33,25 +45,26 @@
                                 <th class="column-3">Order Status</th>
                                 <th class="column-4">Total</th>
                             </tr>
-
-                            <tr class="table_row">
-                                <td class="column-1">ORD - 21453</td>
-                                <td class="column-2">13-02-2024</td>
-                                <td class="column-3">Out Of Factory</td>
-                                <td class="column-4">$ 36.00</td>
-                            </tr>
-                            <tr class="table_row">
-                                <td class="column-1">ORD - 21453</td>
-                                <td class="column-2">13-01-2024</td>
-                                <td class="column-3">Out Of Factory</td>
-                                <td class="column-4">$ 36.00</td>
-                            </tr>
                             <tr class="table_row">
                                 <td class="column-1">ORD - 21453</td>
                                 <td class="column-2">13-05-2024</td>
                                 <td class="column-3">Out Of Factory</td>
                                 <td class="column-4">$ 36.00</td>
                             </tr>
+                            <?php if ($orders): ?>
+                                <?php foreach ($orders as $order): ?>
+                                    <tr class="table_row">
+                                        <td class="column-1"><?php echo htmlspecialchars($order['order_number']); ?></td>
+                                        <td class="column-2"><?php echo htmlspecialchars($order['order_date']); ?></td>
+                                        <td class="column-3"><?php echo htmlspecialchars($order['order_status']); ?></td>
+                                        <td class="column-4">$ <?php echo htmlspecialchars($order['total']); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr class="table_row">
+                                    <td colspan="4" class="column-1">No orders found</td>
+                                </tr>
+                            <?php endif; ?>
                         </table>
                     </div>
                 </div>

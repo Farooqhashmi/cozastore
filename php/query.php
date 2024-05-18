@@ -1,92 +1,140 @@
 <?php
-include('dbcon.php');
 session_start();
 
-//Category Reference
-$catref = "../dashmin/img/category/";
-//Product Reference
-$proref = "../dashmin/img/product/";
+$catImgRef = "../dashmin/img/category/";
+$proImgRef = "../dashmin/img/product/";
+include("dbcon.php");
 
-if(isset($_POST['register'])){
+// Handle registration
+if (isset($_POST['register'])) {
     $userName = $_POST['username'];
     $userEmail = $_POST['useremail'];
-    $userNumber = $_POST['userphone'];
     $userPassword = $_POST['userpassword'];
+    $userNumber = $_POST['userphone'];
 
-    $hashedPassword = password_hash($userpassword, PASSWORD_DEFAULT);
-
-    $query= $pdo->prepare("INSERT INTO `user`(`username`, `useremail`, `userphone`, `userpassword`) VALUES (:un,:ue,:unum,:up)");
-    $query->bindParam(":un",$userName);
-    $query->bindParam(":ue",$userEmail);
-    $query->bindParam(":unum",$userNumber);
-    $query->bindParam(":up",$hashedPassword);
-    $query->execute();
-
-    echo "<script>alert('User added successfully');
-    location.assign('customer-dashboard.php');
-    </script>";
-    exit;
+    if (registerUser($userName, $userEmail, $userNumber, $userPassword)) {
+        echo "<script>alert('User added successfully'); location.assign('customer-dashboard.php');</script>";
+    } else {
+        echo "<script>alert('Error adding user');</script>";
+    }
 }
 
-// Update user
-if(isset($_POST['updatedetails'])){
+// Register a new user
+function registerUser($username, $useremail, $userphone, $userpassword) {
+    global $pdo;
+    $hashedPassword = password_hash($userpassword, PASSWORD_DEFAULT);
+    $query = $pdo->prepare("INSERT INTO `user`(`username`, `useremail`, `userphone`, `userpassword`) VALUES (:un, :ue, :unum, :up)");
+    $query->bindParam(":un", $username);
+    $query->bindParam(":ue", $useremail);
+    $query->bindParam(":unum", $userphone);
+    $query->bindParam(":up", $hashedPassword);
+    $query->execute();
+    return $query->rowCount() > 0;
+}
+
+// Handle login
+if (isset($_POST['login'])) {
+    $userEmail = $_POST['email']; 
+    $userPassword = $_POST['password']; 
+    $query = $pdo->prepare("SELECT * FROM user WHERE useremail=:ue AND userpassword=:up"); 
+    $query->bindParam(":ue", $userEmail); 
+    $query->bindParam(":up", $userPassword); 
+    $query->execute();
+    $userData = $query->fetch(PDO::FETCH_ASSOC);
+    if ($userData) {
+        $_SESSION['sessionemail'] = $userData['useremail']; 
+        $_SESSION['sessionname'] = $userData['username']; 
+        $_SESSION['sessionpassword'] = $userData['userpassword']; 
+        $_SESSION['sessionrole'] = $userData['userrole']; 
+
+        if ($_SESSION['sessionrole'] == "user") { 
+            echo "<script>alert('logged in successfully');
+            location.assign('customer.php')
+            </script>";
+        } else {
+            echo "<script>alert('logged in successfully');
+            location.assign('../dashmin/index.php')
+            </script>";
+        }
+    }
+}
+
+// Add to cart
+if (isset($_POST['addToCart'])) {
+    $pId = $_POST['proId'];
+    $pName = $_POST['proName'];
+    $pPrice = $_POST['proPrice'];
+    $pQuantity = $_POST['proQuantity'];
+    $pImage = $_POST['proImage'];
+    if (isset($_SESSION['cart'])) {
+        $count = count($_SESSION['cart']);
+        $_SESSION['cart'][$count]
+            = array("pId" => $pId, "pName" => $pName, "pQuantity" => $pQuantity, "pPrice" => $pPrice, "pImage" => $pImage);
+        echo "<script>alert('product add into cart')</script>";
+    } else {
+        $_SESSION['cart'][0] = array("pId" => $pId, "pName" => $pName, "pQuantity" => $pQuantity, "pPrice" => $pPrice, "pImage" => $pImage);
+        echo "<script>alert('product add into cart')</script>";
+    }
+}
+
+// Update user details
+if (isset($_POST['updatedetails'])) {
     $userid = $_POST['userid'];
     $userName = $_POST['username'];
     $userEmail = $_POST['useremail'];
     $userPhone = $_POST['userphone'];
-    $query = $pdo->prepare("UPDATE user SET username = :un,  userphone = :uphone, useremail = :uemail WHERE userid = :uid");
-    $query->bindParam(":uid", $userid);
-    $query->bindParam(":un", $userName);
-    $query->bindParam(":uemail", $userEmail);
-    $query->bindParam(":uphone", $userPhone);
-    $query->execute();
 
-    // Update session data if the update was successful
-    if ($query->rowCount() > 0) {
+    if (updateUserDetails($userid, $userName, $userEmail, $userPhone)) {
         $_SESSION['sessionname'] = $userName;
         $_SESSION['sessionemail'] = $userEmail;
         $_SESSION['sessionphone'] = $userPhone;
-        echo "<script>alert('User Update Successful');
-        location.assign('my-account.php');
-        </script>";
+        echo "<script>alert('User Update Successful'); location.assign('my-account.php');</script>";
     } else {
-        echo "<script>alert('User Update Failed');
-        location.assign('my-account.php');
-        </script>";
+        echo "<script>alert('Error updating user'); location.assign('my-account.php');</script>";
     }
-    exit;
 }
 
-//login
-if(isset($_POST['login'])){
-    $userEmail = $_POST['useremail'];
-    $userPassword = $_POST['userpassword'];
-    $query= $pdo->prepare("SELECT * from user where useremail=:ue AND userpassword=:up");
-    $query->bindParam(":ue",$userEmail);
-    $query->bindParam(":up",$userPassword);
+// Update user details function
+function updateUserDetails($userid, $username, $useremail, $userphone) {
+    global $pdo;
+    $query = $pdo->prepare("UPDATE user SET username = :un, userphone = :uphone, useremail = :uemail WHERE userid = :uid");
+    $query->bindParam(":uid", $userid);
+    $query->bindParam(":un", $username);
+    $query->bindParam(":uemail", $useremail);
+    $query->bindParam(":uphone", $userphone);
     $query->execute();
-    $userData = $query->fetch(PDO::FETCH_ASSOC);
+    return $query->rowCount() > 0;
+}
 
-    if($userData && password_verify($userPassword, $userData['userpassword'])){
-        $_SESSION['sessionemail'] = $userData['useremail'];
-        $_SESSION['sessionname'] = $userData['username'];
-        $_SESSION['sessionpassword'] = $userData['userpassword'];
-        $_SESSION['sessionrole'] = $userData['userrole'];
-        
-        if($_SESSION['sessionrole'] == "user"){
-            echo "<script>alert('User login successfully');
-            location.assign('customer-dashboard.php');
-            </script>";
-        }else{
-            echo "<script>alert('Logged in successfully');
-            location.assign('../dashmin/index.php');
-            </script>";
-        }
+// Handle password update
+if (isset($_POST['updatePassword'])) {
+    $oldPass = $_POST['oldPass'];
+    $newPass = $_POST['newPass'];
+    $retypenewPass = $_POST['matchnewPass'];
+
+    if (updatePassword($oldPass, $newPass, $retypenewPass)) {
+        echo "<script>alert('Password updated successfully'); location.assign('my-account.php');</script>";
     } else {
-        echo "<script>alert('Login failed. Invalid email or password');
-        location.assign('login.php');
-        </script>";
+        echo "<script>alert('Error updating password'); location.assign('my-account.php');</script>";
     }
-    exit;
+}
+
+// Update password function
+function updatePassword($oldPass, $newPass, $retypenewPass) {
+    if ($retypenewPass == $newPass) {
+        global $pdo;
+        $querycheck = $pdo->prepare("SELECT userpassword FROM user WHERE userid = :ui");
+        $querycheck->bindParam("ui", $_SESSION['sessionid']);
+        $querycheck->execute();
+        $userData = $querycheck->fetch(PDO::FETCH_ASSOC);
+        if (password_verify($oldPass, $userData['userpassword'])) {
+            $hashedPassword = password_hash($newPass, PASSWORD_DEFAULT);
+            $queryupdate = $pdo->prepare("UPDATE user SET userpassword = :upass WHERE userid = :ui ");
+            $queryupdate->bindParam("ui", $_SESSION['sessionid']);
+            $queryupdate->bindParam("upass", $hashedPassword, PDO::PARAM_STR);
+            return $queryupdate->execute();
+        }
+    }
+    return false;
 }
 ?>
