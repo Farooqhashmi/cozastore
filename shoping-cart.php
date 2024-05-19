@@ -43,11 +43,13 @@ function getProductDetails($productId, $pdo)
 function calculateTotal($cart, $pdo)
 {
     $total = 0;
-    foreach ($cart as $proCartData) {
-        $productId = $proCartData['pId'];
-        $productDetails = getProductDetails($productId, $pdo);
-        if ($productDetails) {
-            $total += $productDetails['productPrice'] * $proCartData['pQuantity'];
+    if (is_array($cart)) {
+        foreach ($cart as $proCartData) {
+            $productId = $proCartData['pId'];
+            $productDetails = getProductDetails($productId, $pdo);
+            if ($productDetails) {
+                $total += $productDetails['productPrice'] * $proCartData['pQuantity'];
+            }
         }
     }
     return $total;
@@ -95,7 +97,7 @@ function calculateShippingCost($country)
                                 <th class="column-5">Total</th>
                             </tr>
                             <?php
-                            if (isset($_SESSION['cart'])) {
+                            if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                                 foreach ($_SESSION['cart'] as $proCartData) {
                                     $productId = $proCartData['pId'];
                                     $productDetails = getProductDetails($productId, $pdo);
@@ -106,7 +108,7 @@ function calculateShippingCost($country)
                                             <td class="column-5"><?php echo $productId ?></td>
                                             <td class="column-1">
                                                 <div class="how-itemcart1">
-												<img src="<?php echo $proImgRef . $productDetails['productImage'] ?>" alt="Product Image">
+                                                    <img src="<?php echo $proImgRef . $productDetails['productImage'] ?>" alt="Product Image">
                                                 </div>
                                             </td>
                                             <td class="column-2"><?php echo $productDetails['productName'] ?></td>
@@ -127,6 +129,8 @@ function calculateShippingCost($country)
                             <?php
                                     }
                                 }
+                            } else {
+                                echo '<tr class="table_row"><td colspan="6" class="column-1">Your cart is empty</td></tr>';
                             }
                             ?>
                         </table>
@@ -137,15 +141,15 @@ function calculateShippingCost($country)
     </div>
 
     <!-- Coupon Code and Update Cart Button -->
-<div class="flex-c-m m-tb-5">
-    <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="Coupon Code">
-    <div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
-        Apply coupon
+    <div class="flex-c-m m-tb-5">
+        <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text" name="coupon" placeholder="Coupon Code">
+        <div class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+            Apply coupon
+        </div>
     </div>
-</div>
-<div class="flex-c-m m-tb-10">
-    <input type="submit" class="stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" name="update_cart" value="Update Cart">
-</div>
+    <div class="flex-c-m m-tb-10">
+        <input type="submit" class="stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5" name="update_cart" value="Update Cart">
+    </div>
 
     <!-- Cart Totals -->
     <div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
@@ -161,12 +165,12 @@ function calculateShippingCost($country)
                 </div>
                 <div class="size-209">
                     <span class="mtext-110 cl2">
-                        <?php echo calculateTotal($_SESSION['cart'], $pdo); ?>
+                        $<?php echo calculateTotal(isset($_SESSION['cart']) ? $_SESSION['cart'] : [], $pdo); ?>
                     </span>
                 </div>
             </div>
-                        <!-- Proceed to Checkout Button -->
-						<div class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
+            <!-- Proceed to Checkout Button -->
+            <div class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
                 <button type="submit" class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer" name="proceed_to_checkout">Proceed to Checkout</button>
             </div>
         </div>
@@ -176,4 +180,3 @@ function calculateShippingCost($country)
 <?php
 include("components/footer.php")
 ?>
-

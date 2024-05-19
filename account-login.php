@@ -1,6 +1,6 @@
 <?php
 include ("components/header.php");
-include("dbcon.php");
+include("../cozastore/php/dbcon.php");
 
 if(isset($_SESSION['sessionemail'])){
     echo "<script>
@@ -71,7 +71,7 @@ if(isset($_POST['userlogin'])){
 <!-- Title page -->
 <section class="bg-img1 txt-center p-lr-15 p-tb-92" style="background-image: url('images/bg-01.jpg');">
     <h2 class="ltext-105 cl0 txt-center">
-        Customer Dashboard
+        Account Menu
     </h2>
 </section>
 
