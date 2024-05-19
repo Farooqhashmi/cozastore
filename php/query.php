@@ -61,19 +61,44 @@ if (isset($_POST['login'])) {
 
 // Add to cart
 if (isset($_POST['addToCart'])) {
-    $pId = $_POST['proId'];
-    $pName = $_POST['proName'];
-    $pPrice = $_POST['proPrice'];
-    $pQuantity = $_POST['proQuantity'];
-    $pImage = $_POST['proImage'];
+    $productId = $_POST['productId'];
+    $productName = $_POST['productName'];
+    $productPrice = $_POST['productPrice'];
+    $productQuantity = $_POST['productQuantity'];
+    $productImage = $_POST['productImage'];
+    
     if (isset($_SESSION['cart'])) {
-        $count = count($_SESSION['cart']);
-        $_SESSION['cart'][$count]
-            = array("pId" => $pId, "pName" => $pName, "pQuantity" => $pQuantity, "pPrice" => $pPrice, "pImage" => $pImage);
-        echo "<script>alert('product add into cart')</script>";
+        $cartExist = false;
+
+        foreach ($_SESSION['cart'] as $key => $values) {
+            if ($values['productId'] == $productId) {
+                $_SESSION['cart'][$key]['productQuantity'] += $productQuantity;
+                $cartExist = true;
+                echo "<script>alert('Cart has been updated');</script>";
+                break;
+            }
+        }
+
+        if (!$cartExist) {
+            $count = count($_SESSION['cart']);
+            $_SESSION['cart'][$count] = array(
+                "productId" => $productId,
+                "productName" => $productName,
+                "productQuantity" => $productQuantity,
+                "productPrice" => $productPrice,
+                "productImage" => $productImage
+            );
+            echo "<script>alert('Product added to cart');</script>";
+        }
     } else {
-        $_SESSION['cart'][0] = array("pId" => $pId, "pName" => $pName, "pQuantity" => $pQuantity, "pPrice" => $pPrice, "pImage" => $pImage);
-        echo "<script>alert('product add into cart')</script>";
+        $_SESSION['cart'][0] = array(
+            "productId" => $productId,
+            "productName" => $productName,
+            "productQuantity" => $productQuantity,
+            "productPrice" => $productPrice,
+            "productImage" => $productImage
+        );
+        echo "<script>alert('Product added to cart');</script>";
     }
 }
 

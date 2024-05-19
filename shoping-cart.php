@@ -25,10 +25,10 @@ function calculateTotal($cart, $pdo)
     $total = 0;
     if (is_array($cart)) {
         foreach ($cart as $proCartData) {
-            $productId = $proCartData['pId'];
+            $productId = $proCartData['productId'];
             $productDetails = getProductDetails($productId, $pdo);
             if ($productDetails) {
-                $total += $productDetails['productPrice'] * $proCartData['pQuantity'];
+                $total += $productDetails['productPrice'] * $proCartData['productQuantity'];
             }
         }
     }
@@ -45,6 +45,22 @@ function applyCouponCode($couponCode)
 function calculateShippingCost($country)
 {
     return 0; 
+}
+
+// Update cart quantities
+if (isset($_POST['update_cart'])) {
+    foreach ($_SESSION['cart'] as $key => $product) {
+        if (isset($_POST['quantity_' . $product['productId']])) {
+            $_SESSION['cart'][$key]['productQuantity'] = $_POST['quantity_' . $product['productId']];
+        }
+    }
+    echo "<script>alert('Cart updated successfully!');</script>";
+}
+
+// Proceed to checkout
+if (isset($_POST['proceed_to_checkout'])) {
+    header("Location: checkout.php");
+    exit;
 }
 
 ?>
@@ -75,14 +91,15 @@ function calculateShippingCost($country)
                                 <th class="column-3">Price</th>
                                 <th class="column-4">Quantity</th>
                                 <th class="column-5">Total</th>
+                                <th class="column-5">Remove</th>
                             </tr>
                             <?php
                             if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                                 foreach ($_SESSION['cart'] as $proCartData) {
-                                    $productId = $proCartData['pId'];
+                                    $productId = $proCartData['productId'];
                                     $productDetails = getProductDetails($productId, $pdo);
                                     if ($productDetails) {
-                                        $total = $productDetails['productPrice'] * $proCartData['pQuantity'];
+                                        $total = $productDetails['productPrice'] * $proCartData['productQuantity'];
                             ?>
                                         <tr class="table_row">
                                             <td class="column-5"><?php echo $productId ?></td>
@@ -98,19 +115,22 @@ function calculateShippingCost($country)
                                                     <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                         <i class="fs-16 zmdi zmdi-minus"></i>
                                                     </div>
-                                                    <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="<?php echo $proCartData["pQuantity"] ?>">
+                                                    <input class="mtext-104 cl3 txt-center num-product" type="number" name="quantity_<?php echo $productId ?>" value="<?php echo $proCartData["productQuantity"] ?>">
                                                     <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                                         <i class="fs-16 zmdi zmdi-plus"></i>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="column-5">$ <?php echo $total ?></td>
+                                            <td class="column-5">
+                                                <a href="?deleteCart=<?php echo $productId ?>" class="btn btn-danger">Remove</a>
+                                            </td>
                                         </tr>
                             <?php
                                     }
                                 }
                             } else {
-                                echo '<tr class="table_row"><td colspan="6" class="column-1">Your cart is empty</td></tr>';
+                                echo '<tr class="table_row"><td colspan="7" class="column-1">Your cart is empty</td></tr>';
                             }
                             ?>
                         </table>
@@ -158,5 +178,5 @@ function calculateShippingCost($country)
 </form>
 
 <?php
-include("components/footer.php")
+include("components/footer.php");
 ?>
