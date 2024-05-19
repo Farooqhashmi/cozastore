@@ -18,7 +18,7 @@ if ($userEmail) {
 <style>
     .table-my-orders th,
     .table-my-orders td {
-        padding: 10px; /* Adjust as needed */
+        padding: 10px; 
     }
 </style>
 

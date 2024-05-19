@@ -1,5 +1,5 @@
 <?php
-include("dbcon.php"); // Include your database connection file
+include("dbcon.php"); 
 
 if (isset($_POST['register'])) {
     $name = trim($_POST['name']);

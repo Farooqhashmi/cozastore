@@ -1,7 +1,6 @@
 <?php
 include("components/header.php");
 
-// Initialize $proDetail
 $proDetail = null;
 
 if (isset($_GET["pid"])) {
@@ -15,7 +14,6 @@ if (isset($_GET["pid"])) {
     $proDetail = $query->fetch(PDO::FETCH_ASSOC);
 }
 
-// Check if $proDetail is not null and all required keys exist
 if ($proDetail !== null && isset($proDetail['productName']) && isset($proDetail['productPrice']) && isset($proDetail['productDescription']) && isset($proDetail['productImage'])) {
     
 ?>
@@ -651,7 +649,6 @@ if ($proDetail !== null && isset($proDetail['productName']) && isset($proDetail[
 
 <?php
 } else {
-    // Handle case where $proDetail is null or required keys are missing
     echo "<p>Product details not found.</p>";
 }
 

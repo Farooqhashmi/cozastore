@@ -5,7 +5,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include database connection
 include("../cozastore/php/dbcon.php");
 
 // css for Coupon Code and Update Cart Button
@@ -30,7 +29,7 @@ echo "<style>
 }
 </style>";
 
-// Function to fetch product details from the database
+// fetch product details from the database
 function getProductDetails($productId, $pdo)
 {
     $sql = "SELECT * FROM products WHERE productId = :productId";
@@ -40,7 +39,7 @@ function getProductDetails($productId, $pdo)
     return $productDetails;
 }
 
-// Function to calculate total price for all items in the cart
+// calculate total price for all items in the cart
 function calculateTotal($cart, $pdo)
 {
     $total = 0;
@@ -54,20 +53,16 @@ function calculateTotal($cart, $pdo)
     return $total;
 }
 
-// Function to apply coupon code
+// apply coupon code
 function applyCouponCode($couponCode)
 {
-    // Your coupon code logic here
-    // Return the discount amount
-    return 0; // For now, assume no discount
+    return 0; 
 }
 
-// Function to calculate shipping cost
+// calculate shipping cost
 function calculateShippingCost($country)
 {
-    // Your shipping cost calculation logic here
-    // Return the shipping cost based on the country
-    return 0; // For now, assume free shipping
+    return 0; 
 }
 
 ?>

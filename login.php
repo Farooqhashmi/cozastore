@@ -23,7 +23,6 @@ if (isset($_POST['login'])) {
             $_SESSION['sessionphone'] = $user['phone'];
             $_SESSION['sessionid'] = $user['id'];
 
-            // Redirect to the customer dashboard
             echo "<script>location.assign('customer-dashboard.php');</script>";
         } else {
             echo "<script>alert('Invalid email or password.');</script>";

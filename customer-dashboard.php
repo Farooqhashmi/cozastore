@@ -6,7 +6,7 @@ include("../cozastore/php/dbcon.php");
 <style>
     .table-my-orders th,
     .table-my-orders td {
-        padding: 10px; /* Adjust as needed */
+        padding: 10px; 
     }
 </style>
 
@@ -33,21 +33,12 @@ include("../cozastore/php/dbcon.php");
                                 <th class="column-3">Order Status</th>
                                 <th class="column-4">Total</th>
                             </tr>
-
-                            <tr class="table_row">
-                                <td class="column-1">ORD - 21453</td>
-                                <td class="column-2">13-05-2024</td>
-                                <td class="column-3">Out Of Factory</td>
-                                <td class="column-4">$ 36.00</td>
-                            </tr>
-
                         </table>
                     </div>
                 </div>
                 <div class="box bor10 account-details-wrapper m-t-40 p-lr-20 p-t-20 p-b-20">
                     <h3>Personal details</h3>
-                    <form method="post" action="update-details.php"> <!-- Consider a separate file for updating details -->
-                        <!-- Check if session variables are set before using them -->
+                    <form method="post" action="update-details.php"> 
                         <input type="hidden" value="<?php echo isset($_SESSION['sessionid']) ? htmlspecialchars($_SESSION['sessionid']) : ''; ?>" name="userid">
                         <div class="row">
                             <div class="col-sm-6">
