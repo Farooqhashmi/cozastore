@@ -7,27 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include("../cozastore/php/dbcon.php");
 
-// css for Coupon Code and Update Cart Button
-echo "<style>
-.flex-c-m {
-    display: flex;
-    align-items: center; /* Align items vertically */
-}
-
-.m-r-10 {
-    margin-right: 10px;
-}
-
-.m-tb-5 {
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.m-tb-10 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-</style>";
+echo '<link rel="stylesheet" type="text/css" href="css/shoping-cart.css">';
 
 // fetch product details from the database
 function getProductDetails($productId, $pdo)
