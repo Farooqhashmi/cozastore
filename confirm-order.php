@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Function to get product details
+// get product details
 function getProductDetails($productId, $pdo)
 {
     $sql = "SELECT * FROM products WHERE productId = :productId";
@@ -21,7 +21,7 @@ function getProductDetails($productId, $pdo)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// Function to calculate total order amount
+// calculate total order amount
 function calculateTotal($cart, $pdo)
 {
     $total = 0;
@@ -37,7 +37,7 @@ function calculateTotal($cart, $pdo)
     return $total;
 }
 
-// Function to save order to the database
+// save order to the database
 function saveOrderToDatabase($orderDetails, $pdo, $user_id)
 {
     try {

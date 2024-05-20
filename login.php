@@ -11,17 +11,17 @@ if (isset($_POST['login'])) {
         echo "<script>alert('Invalid email format.');</script>";
     } else {
         // Fetch user from database
-        $query = $pdo->prepare("SELECT * FROM users WHERE email = :email");
+        $query = $pdo->prepare("SELECT * FROM user WHERE useremail = :email");
         $query->bindParam(':email', $email);
         $query->execute();
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user && password_verify($password, $user['userpassword'])) {
             // Set session variables
-            $_SESSION['sessionemail'] = $user['email'];
-            $_SESSION['sessionname'] = $user['name'];
-            $_SESSION['sessionphone'] = $user['phone'];
-            $_SESSION['sessionid'] = $user['id'];
+            $_SESSION['sessionemail'] = $user['useremail'];
+            $_SESSION['sessionname'] = $user['username'];
+            $_SESSION['sessionphone'] = $user['userphone'];
+            $_SESSION['sessionid'] = $user['userid'];
 
             echo "<script>location.assign('customer-dashboard.php');</script>";
         } else {

@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 $catImgRef = "../dashmin/img/category/";
 $proImgRef = "../dashmin/img/product/";
 include("dbcon.php");

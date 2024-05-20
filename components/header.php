@@ -1,9 +1,12 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include("php/query.php");
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>Home</title>
     <meta charset="UTF-8">
@@ -38,7 +41,6 @@ include("php/query.php");
     <link rel="stylesheet" type="text/css" href="css/util.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <!--===============================================================================================-->
-	<?php echo '<link rel="stylesheet" type="text/css" href="css/header.css">'; ?>
 </head>
 
 <body class="animsition">
@@ -73,10 +75,10 @@ include("php/query.php");
                     </div>
                 </div>
             </div>
-
+            <?php echo '<link rel="stylesheet" type="text/css" href="css/header.css">'; ?>
             <div class="wrap-menu-desktop how-shadow1">
                 <nav class="limiter-menu-desktop container">
-
+                
                     <!-- Logo desktop -->      
                     <a href="#" class="logo">
                         <img src="images/icons/logo-01.png" alt="IMG-LOGO">

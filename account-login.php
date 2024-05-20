@@ -1,11 +1,9 @@
 <?php
-include ("components/header.php");
+include("components/header.php");
 include("../cozastore/php/dbcon.php");
 
 if(isset($_SESSION['sessionemail'])){
-    echo "<script>
-        location.assign('my-account.php');
-    </script>";
+    header("Location: my-account.php"); 
     exit();
 }
 
@@ -21,27 +19,27 @@ if(isset($_POST['userregister'])){
         exit();
     }
 
-    // Validate password length and complexity
-    if(strlen($userpassword) < 8 || 
-       !preg_match('/[A-Z]/', $userpassword) || 
-       !preg_match('/[a-z]/', $userpassword) || 
-       !preg_match('/[0-9]/', $userpassword) || 
-       !preg_match('/[!@#$%^&*()_+=\-{};:"<>,./?]/', $userpassword)){
-        echo "<script>alert('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.');</script>";
+    // Validate password length
+    if(strlen($userpassword) < 8){
+        echo "<script>alert('Password must be at least 8 characters long.');</script>";
         exit();
     }
 
-    // Register the user
+    // Hash the password
     $hashedPassword = password_hash($userpassword, PASSWORD_DEFAULT);
+
+    // Register the user
     $query = $pdo->prepare("INSERT INTO user (username, useremail, userphone, userpassword) VALUES (:un, :ue, :uphone, :up)");
     $query->bindParam(":un", $username);
     $query->bindParam(":ue", $useremail);
     $query->bindParam(":uphone", $userphone);
     $query->bindParam(":up", $hashedPassword);
     if ($query->execute()) {
-        echo "<script>alert('User registered successfully'); location.assign('my-account.php');</script>";
+        echo "<script>alert('User registered successfully'); location.assign('account-login.php');</script>";
+        exit(); // Redirect to login page after successful registration
     } else {
         echo "<script>alert('Error registering user');</script>";
+        print_r($query->errorInfo()); // Print any errors for debugging
     }
 }
 
@@ -61,7 +59,9 @@ if(isset($_POST['userlogin'])){
         $_SESSION['sessionname'] = $userData['username'];
         $_SESSION['sessionphone'] = $userData['userphone'];
         $_SESSION['sessionrole'] = $userData['userrole'];
-        echo "<script>alert('Logged in successfully'); location.assign('my-account.php');</script>";
+
+        header("Location: my-account.php");
+        exit();
     } else {
         echo "<script>alert('Invalid email or password');</script>";
     }
@@ -84,7 +84,7 @@ if(isset($_POST['userlogin'])){
                     <h4 class="mtext-105 cl2 txt-center p-b-30">
                         Customer Registration
                     </h4>
-
+                    <!-- Registration form inputs -->
                     <div class="bor8 m-b-20 how-pos4-parent">
                         <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" required type="text" name="username" placeholder="Full Name">
                         <img class="how-pos4 pointer-none" src="images/icons/user.png" width="25px" alt="ICON">
@@ -113,7 +113,7 @@ if(isset($_POST['userlogin'])){
                     <h4 class="mtext-105 cl2 txt-center p-b-30">
                         Customer Login
                     </h4>
-
+                    <!-- Login form inputs -->
                     <div class="bor8 m-b-20 how-pos4-parent">
                         <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="customeremail" required placeholder="Your Email Address">
                         <img class="how-pos4 pointer-none" src="images/icons/email.png" width="23px" alt="ICON">
@@ -133,5 +133,6 @@ if(isset($_POST['userlogin'])){
 </section>
 
 <?php
-include ("components/footer.php");
+include("components/footer.php");
 ?>
+
