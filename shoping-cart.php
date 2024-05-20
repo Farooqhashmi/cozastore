@@ -15,8 +15,7 @@ function getProductDetails($productId, $pdo)
     $sql = "SELECT * FROM products WHERE productId = :productId";
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['productId' => $productId]);
-    $productDetails = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $productDetails;
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 // calculate total price for all items in the cart
@@ -59,8 +58,14 @@ if (isset($_POST['update_cart'])) {
 
 // Proceed to checkout
 if (isset($_POST['proceed_to_checkout'])) {
-    header("Location: checkout.php");
-    exit;
+    // Check if the user is logged in
+    if (!isset($_SESSION['user_id'])) {
+        header("Location: login.php");
+        exit;
+    } else {
+        header("Location: checkout.php");
+        exit;
+    }
 }
 
 ?>
