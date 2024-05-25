@@ -1,0 +1,18 @@
+.flex-c-m {
+    display: flex;
+    align-items: center; 
+}
+
+.m-r-10 {
+    margin-right: 10px;
+}
+
+.m-tb-5 {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.m-tb-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
