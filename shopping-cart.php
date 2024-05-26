@@ -1,11 +1,11 @@
 <?php
-session_start(); 
+session_start();
 include("components/header.php");
 include("../cozastore/php/dbcon.php");
 
 echo '<link rel="stylesheet" type="text/css" href="css/shoping-cart.css">';
 
-// fetch product details from the database
+// Fetch product details from the database
 function getProductDetails($productId, $pdo)
 {
     $sql = "SELECT * FROM products WHERE productId = :pid";
@@ -14,13 +14,13 @@ function getProductDetails($productId, $pdo)
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-// calculate total price for all items in the cart
+// Calculate total price for all items in the cart
 function calculateTotal($cart, $pdo)
 {
     $total = 0;
     if (is_array($cart)) {
         foreach ($cart as $proCartData) {
-            $productId = $proCartData['productid'];
+            $productId = $proCartData['productId'];
             $productDetails = getProductDetails($productId, $pdo);
             if ($productDetails) {
                 $total += $productDetails['productPrice'] * $proCartData['productquantity'];
@@ -30,64 +30,73 @@ function calculateTotal($cart, $pdo)
     return $total;
 }
 
-// apply coupon code
+// Apply coupon code (stub function for future implementation)
 function applyCouponCode($couponCode)
 {
-    return 0; 
+    return 0;
 }
 
-// calculate shipping cost
+// Calculate shipping cost (stub function for future implementation)
 function calculateShippingCost($country)
 {
-    return 0; 
+    return 0;
 }
 
-// Handle product ID passed from product-detail.php
+// Handle product addition
 if (isset($_GET["pid"])) {
     $pid = $_GET['pid'];
     $productDetails = getProductDetails($pid, $pdo);
     if ($productDetails) {
-        // Add the product to the cart
         if (!isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
-        // Check if the product is already in the cart
+
         $found = false;
         foreach ($_SESSION['cart'] as $key => $product) {
-            if ($product['productid'] == $pid) {
-                // Product already in cart, increment quantity
+            if ($product['productId'] == $pid) {
                 $_SESSION['cart'][$key]['productquantity']++;
                 $found = true;
                 break;
             }
         }
         if (!$found) {
-            // Product not in cart, add it
-            $_SESSION['cart'][] = ['productid' => $pid, 'productquantity' => 1];
+            $_SESSION['cart'][] = ['productId' => $pid, 'productquantity' => 1];
         }
-        // Redirect the user back to the product detail page 
         header("Location: product-detail.php?pid=" . $pid);
-        exit; // Terminate the script
+        exit;
     } else {
         // Product not found, redirect the user back to the product detail page with an error message
         header("Location: product-detail.php?pid=" . $pid . "&error=not_found");
-        exit; // Terminate the script
+        exit;
     }
 }
 
 // Update cart quantities
 if (isset($_POST['update_cart'])) {
     foreach ($_SESSION['cart'] as $key => $product) {
-        if (isset($_POST['quantity_' . $product['productid']])) {
-            $_SESSION['cart'][$key]['productquantity'] = $_POST['quantity_' . $product['productid']];
+        if (isset($_POST['quantity_' . $product['productId']])) {
+            $_SESSION['cart'][$key]['productquantity'] = intval($_POST['quantity_' . $product['productId']]);
         }
     }
     echo "<script>alert('Cart updated successfully!');</script>";
 }
 
+// Handle item removal from cart
+if (isset($_GET['deleteCart'])) {
+    $deleteProductId = $_GET['deleteCart'];
+    foreach ($_SESSION['cart'] as $key => $product) {
+        if ($product['productId'] == $deleteProductId) {
+            unset($_SESSION['cart'][$key]);
+            $_SESSION['cart'] = array_values($_SESSION['cart']); // Re-index array
+            break;
+        }
+    }
+    header("Location: shopping-cart.php");
+    exit;
+}
+
 // Proceed to checkout
 if (isset($_POST['proceed_to_checkout'])) {
-    // Check if the user is logged in
     if (!isset($_SESSION['userid'])) {
         header("Location: login.php");
         exit;
@@ -96,7 +105,6 @@ if (isset($_POST['proceed_to_checkout'])) {
         exit;
     }
 }
-
 ?>
 
 <!-- Breadcrumb -->
@@ -130,20 +138,20 @@ if (isset($_POST['proceed_to_checkout'])) {
                             <?php
                             if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
                                 foreach ($_SESSION['cart'] as $proCartData) {
-                                    $productId = $proCartData['productid'];
+                                    $productId = $proCartData['productId'];
                                     $productDetails = getProductDetails($productId, $pdo);
                                     if ($productDetails) {
-                                        $total = $productDetails['productprice'] * $proCartData['productquantity'];
+                                        $total = $productDetails['productPrice'] * $proCartData['productquantity'];
                             ?>
                                         <tr class="table_row">
                                             <td class="column-5"><?php echo $productId ?></td>
                                             <td class="column-1">
                                                 <div class="how-itemcart1">
-                                                    <img src="<?php echo $proImgRef . $productDetails['productimage'] ?>" alt="Product Image">
+                                                    <img src="<?php echo $proImgRef . $productDetails['productImage'] ?>" alt="Product Image">
                                                 </div>
                                             </td>
-                                            <td class="column-2"><?php echo $productDetails['productname'] ?></td>
-                                            <td class="column-3">$ <?php echo $productDetails['productprice'] ?></td>
+                                            <td class="column-2"><?php echo $productDetails['productName'] ?></td>
+                                            <td class="column-3">$ <?php echo $productDetails['productPrice'] ?></td>
                                             <td class="column-4">
                                                 <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                                     <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">

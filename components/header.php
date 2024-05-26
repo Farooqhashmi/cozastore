@@ -119,7 +119,7 @@ include("php/query.php");
                             if (isset($_SESSION["sessionemail"])) {
                             ?>
                                 <li>
-                                    <a href="profile.php">profile</a>
+                                    <a href="my-account.php">profile</a>
                                 </li>
                             <?php
                             }
@@ -230,11 +230,11 @@ include("php/query.php");
                 </li>
 
                 <li>
-                    <a href="product.html">Shop</a>
+                    <a href="product.php">Shop</a>
                 </li>
 
                 <li>
-                    <a href="shoping-cart.html" class="label1 rs1" data-label1="hot">Features</a>
+                    <a href="shoping-cart.php" class="label1 rs1" data-label1="hot">Features</a>
                 </li>
 
                 <li>
@@ -253,7 +253,7 @@ include("php/query.php");
                 if (!isset($_SESSION['sessionemail'])) {
                 ?>
                     <li>
-                        <a href="login.php">login</a>
+                        <a href="account-login.php">login</a>
                     </li>
                 <?php
                 }
